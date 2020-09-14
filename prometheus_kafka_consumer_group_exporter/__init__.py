@@ -97,7 +97,7 @@ def main():
         'bootstrap_servers': 'localhost',
         'auto_offset_reset': 'latest',
         'group_id': None,
-        'consumer_timeout_ms': 500
+        'consumer_timeout_ms': 5000
     }
 
     for filename in args.consumer_config:
