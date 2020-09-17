@@ -1,8 +1,7 @@
 from prometheus_client.core import GaugeMetricFamily, CounterMetricFamily
 
 from .fetch_jobs import build_highwaters, build_lowwaters
-
-METRIC_PREFIX = 'kafka_consumer_group_'
+from .metrics import METRIC_PREFIX
 
 # Globals
 offsets = {}  # group->topic->partition->offset

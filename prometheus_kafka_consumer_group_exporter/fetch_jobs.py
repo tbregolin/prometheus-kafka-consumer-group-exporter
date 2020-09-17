@@ -6,6 +6,7 @@ from kafka.protocol.metadata import MetadataRequest
 from kafka.protocol.offset import OffsetRequest, OffsetResetStrategy
 
 from . import scheduler
+from .kafka import KafkaAsyncRequest
 
 # Globals
 topics = {}  # topic->partition->leader
@@ -54,8 +55,7 @@ def fetch_topics(client, callback):
 
         api_version = 0 if client.config['api_version'] < (0, 10) else 1
         request = MetadataRequest[api_version](None)
-        f = client.send(node, request)
-        f.add_callback(callback, api_version)
+        KafkaAsyncRequest(client, node, request, callback, api_version).send()
 
     except Exception:
         logging.exception('Error requesting topics and partition assignments')
@@ -101,8 +101,7 @@ def fetch_highwater(client, callback):
                        for partition in partitions])
                      for topic, partitions in topic_map.items()]
                 )
-                f = client.send(node, request)
-                f.add_callback(callback, node)
+                KafkaAsyncRequest(client, node, request, callback, node).send()
 
     except Exception:
         logging.exception('Error requesting high-water marks')
@@ -148,8 +147,7 @@ def fetch_lowwater(client, callback):
                        for partition in partitions])
                      for topic, partitions in topic_map.items()]
                 )
-                f = client.send(node, request)
-                f.add_callback(callback, node)
+                KafkaAsyncRequest(client, node, request, callback, node).send()
 
     except Exception:
         logging.exception('Error requesting low-water marks')
