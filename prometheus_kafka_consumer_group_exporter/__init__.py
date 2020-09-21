@@ -138,7 +138,7 @@ def main():
         **consumer_config
     )
     client = KafkaClient(
-        wakeup_timeout_ms=20 * 1000,
+        wakeup_timeout_ms=50 * 1000,
         **consumer.config
     )
 
