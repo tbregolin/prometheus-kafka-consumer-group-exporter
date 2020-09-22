@@ -56,6 +56,7 @@ def fetch_topics(client, callback):
         request = MetadataRequest[api_version](None)
         f = client.send(node, request)
         f.add_callback(callback, api_version)
+        client.poll()
 
     except Exception:
         logging.exception('Error requesting topics and partition assignments')
@@ -103,6 +104,7 @@ def fetch_highwater(client, callback):
                 )
                 f = client.send(node, request)
                 f.add_callback(callback, node)
+                client.poll()
 
     except Exception:
         logging.exception('Error requesting high-water marks')
@@ -150,6 +152,7 @@ def fetch_lowwater(client, callback):
                 )
                 f = client.send(node, request)
                 f.add_callback(callback, node)
+                client.poll()
 
     except Exception:
         logging.exception('Error requesting low-water marks')
